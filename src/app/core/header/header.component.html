@@ -1,0 +1,16 @@
+<nav class="navbar navbar-expand-md navbar-light d-none d-md-flex">
+    <div class="container-fluid justify-content-end">
+        <fc-profile-menu>
+            <fc-profile-menu-avatar 
+                avatarSrc="assets/img/avatars/profiles/avatar-1.jpg" 
+                (mouseover)="menuItems.toggle()">
+            </fc-profile-menu-avatar>
+            <fc-profile-menu-items #menuItems>
+                <fc-menu-item menuItem="Meu Perfil"></fc-menu-item>
+                <fc-menu-item menuItem="Configurações"></fc-menu-item>
+                <hr class="dropdown-divider">
+                <fc-menu-item menuItem="Logout"></fc-menu-item>
+            </fc-profile-menu-items>
+        </fc-profile-menu>     
+    </div>
+</nav>
