@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { MenuModule } from './shared/components/menu/menu.module';
+import { NavbarModule } from './shared/components/navbar/navbar.module';
 
 @NgModule({
   declarations: [
@@ -14,7 +14,7 @@ import { MenuModule } from './shared/components/menu/menu.module';
     BrowserModule,
     AppRoutingModule,
     CoreModule,
-    MenuModule
+    NavbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

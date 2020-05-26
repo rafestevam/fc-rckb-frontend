@@ -51,7 +51,7 @@
             ],
             "styles": [
               "src/styles.scss",
-              "src/assets/fonts/feather/feather.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/flatpickr/dist/flatpickr.min.css",
               "node_modules/quill/dist/quill.core.css",
               "node_modules/highlightjs/styles/vs2015.css",

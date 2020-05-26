@@ -1,16 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './header/header.component';
 import { ProfileMenuModule } from '../shared/components/profile-menu/profile-menu.module';
-
+import { HeaderComponent } from './components/header/header.component';
+import { NavbarModule } from '../shared/components/navbar/navbar.module';
 
 
 @NgModule({
-  declarations: [HeaderComponent],
+  declarations: [
+    HeaderComponent,
+  ],
   imports: [
     CommonModule,
+    NavbarModule,
     ProfileMenuModule
   ],
-  exports: [HeaderComponent]
+  exports: [
+    HeaderComponent
+  ]
 })
 export class CoreModule { }
