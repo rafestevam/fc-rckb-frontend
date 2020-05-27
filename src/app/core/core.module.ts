@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfileMenuModule } from '../shared/components/profile-menu/profile-menu.module';
 import { HeaderComponent } from './components/header/header.component';
-import { NavbarModule } from '../shared/components/navbar/navbar.module';
+import { NavbarModule } from './components/navbar/navbar.module';
 
 
 @NgModule({

@@ -18,8 +18,15 @@
           <fc-dropdown-menu #usuarios>
             <fc-dropdown-header dropdownHeader="Usuários"></fc-dropdown-header>
             <fc-dropdown-item dropdownItem="Todos os usuários"></fc-dropdown-item>
+            <fc-dropdown-item dropdownItem="Criar Usuário"></fc-dropdown-item>
           </fc-dropdown-menu>
         </fc-nav-item>
+      </fc-navigation>
+
+      <!-- Divider -->
+      <hr class="navbar-divider d-none d-md-block mt-0 mb-3">
+
+      <fc-navigation>
         <fc-nav-item navItem="Projetos" icon="pen-tool" (click)="projetos.toggle()">
           <fc-dropdown-menu #projetos>
             <fc-dropdown-header dropdownHeader="Projetos"></fc-dropdown-header>
