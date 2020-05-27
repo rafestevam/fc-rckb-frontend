@@ -6,10 +6,10 @@
                 (mouseover)="menuItems.toggle()">
             </fc-profile-menu-avatar>
             <fc-profile-menu-items #menuItems>
-                <fc-menu-item menuItem="Meu Perfil"></fc-menu-item>
-                <fc-menu-item menuItem="Configurações"></fc-menu-item>
+                <fc-menu-item menuItem="Meu Perfil" target=""></fc-menu-item>
+                <fc-menu-item menuItem="Configurações" target=""></fc-menu-item>
                 <hr class="dropdown-divider">
-                <fc-menu-item menuItem="Logout"></fc-menu-item>
+                <fc-menu-item menuItem="Logout" target="" (click)="logout()"></fc-menu-item>
             </fc-profile-menu-items>
         </fc-profile-menu>     
     </div>

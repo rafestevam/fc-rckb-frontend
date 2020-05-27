@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../core/services/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'fc-sign-in',
@@ -10,7 +12,11 @@ export class SignInComponent implements OnInit {
 
   loginForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -24,7 +30,12 @@ export class SignInComponent implements OnInit {
   }
 
   login() {
-    console.log('loguei!');
+    //console.log('loguei!');
+    this.authService
+      .authenticate()
+      .subscribe(
+        () => this.router.navigate(['home'])
+      )
   }
 
 }

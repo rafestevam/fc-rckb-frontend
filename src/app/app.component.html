@@ -1,5 +1,5 @@
 <!-- <fc-menu></fc-menu> -->
-<div *ngIf="loggedIn; else login">
+<div *ngIf="(auth$ | async) as true; else login">
     <fc-navbar></fc-navbar>
     <fc-header></fc-header>
     

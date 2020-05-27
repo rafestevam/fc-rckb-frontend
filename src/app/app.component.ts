@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AuthService } from './core/services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +9,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'fc-rckb-frontend';
-  loggedIn: boolean = false;
+  //loggedIn: boolean = true;
+  auth$: Observable<boolean>;
+
+  constructor(private authService: AuthService){
+    this.auth$ = authService.getAuth();
+    console.log(authService.getAuth());
+  }
 }
