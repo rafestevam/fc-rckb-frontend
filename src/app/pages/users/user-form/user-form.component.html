@@ -1,0 +1,130 @@
+<div class="main-content main-wrapper">
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-8">
+            
+            <fc-pageform-header headerPreTitle="Novo Usuário" headerTitle="Crie um novo usuário"></fc-pageform-header>    
+
+            <form class="mb-4" [formGroup]="usersForm" (submit)="createOrUpdate()">
+
+                <!-- Nome de Usuario -->
+                <div class="form-group">
+                    <label>Nome de usuário</label>
+                    <input formControlName="username" class="form-control" type="email" placeholder="email@dominio.com"> 
+                </div>
+
+                <!-- Nome -->
+                <div class="form-group">
+                    <label>Nome</label>
+                    <input formControlName="name" class="form-control" type="text" placeholder="Nome Completo">
+                </div>
+
+                <!-- Telefone Celular -->
+                <div class="form-group">
+                    <label>Tel. Celular</label>
+                    <input formControlName="cellPhone" class="form-control" type="text" placeholder="(99) 99999-9999" data-mask="(000) 000-0000">
+                </div>
+
+                <!-- Role -->
+                <div class="form-group">
+                    <label>Selecione um perfil</label>
+                    <select class="form-control" data-toggle="select" formControlName="profile">
+                        <option>Administrador</option>
+                        <option>Superusuário</option>
+                        <option>Colaborador</option>
+                    </select>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-12 col-md-6">
+
+                        <!-- Imagem de Perfil -->
+                        <div class="form-group">
+
+                            <!-- Label -->
+                            <label class="mb-1">
+                                Imagem do Perfil
+                            </label>
+
+                            <!-- Text -->
+                            <small class="form-text text-muted">
+                                Favor utilizar uma imagem de até 256px x 256px
+                            </small>
+
+                            <!-- Dropzone -->
+                            <div class="dropzone dropzone-single justify-content-center" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
+                                <ngx-dropzone-label>Clique ou arraste uma imagem</ngx-dropzone-label>
+                                <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+                                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                </ngx-dropzone-image-preview>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+
+                        <!-- Usuario Ativo -->
+                        <div class="form-group">
+
+                            <!-- Label -->
+                            <label class="mb-1">
+                                Usuário Ativo
+                            </label>
+
+                            <!-- Text -->
+                            <small class="form-text text-muted">
+                                Ativação do usuário.
+                            </small>
+
+                            <!-- SWitch -->
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" formControlName="userActive" id="userActive">
+                                <label class="custom-control-label" for="userActive"></label>
+                            </div>
+
+                            <div class="mt-4">
+                                <!-- Warning -->
+                                <div class="card bg-light border">
+                                    <div class="card-body">
+    
+                                        <!-- Heading -->
+                                        <h4 class="mb-2">
+                                            <i-feather name="alert-triangle"></i-feather> Atenção
+                                        </h4>
+        
+                                        <!-- Text -->
+                                        <p class="small text-muted mb-0">
+                                            Recomenda-se a desativação do usuário ao invés da deleção.
+                                            Assim o histórico de atividades é mantido e referências internas não são impactadas.
+                                        </p>
+    
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Divider -->
+                <hr class="mt-5 mb-5">
+
+                <!-- Buttons -->
+                <a href="#" class="btn btn-block btn-primary">
+                    Criar este usuário
+                </a>
+                <a href="#" class="btn btn-block btn-link text-muted">
+                    Cancelar criação
+                </a>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+

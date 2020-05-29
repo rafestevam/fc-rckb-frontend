@@ -14,6 +14,5 @@ export class AppComponent {
 
   constructor(private authService: AuthService){
     this.auth$ = authService.getAuth();
-    console.log(authService.getAuth());
   }
 }

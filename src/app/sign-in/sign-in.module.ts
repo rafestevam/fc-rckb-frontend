@@ -5,13 +5,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { SignInComponent } from './sign-in.component';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
+import { ValidationMessageModule } from '../shared/components/validation-message/validation-message.module';
 
 @NgModule({
   declarations: [SignInComponent, ForgotPassComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    ValidationMessageModule
   ],
   exports: [SignInComponent]
 })

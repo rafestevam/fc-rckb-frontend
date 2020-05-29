@@ -23,7 +23,7 @@
             </p>
             
             <!-- Form -->
-            <form [formGroup]="loginForm" (submit)="login()">
+            <form #form="ngForm" [formGroup]="loginForm" (submit)="login()">
 
                 <!-- Email address -->
                 <div class="form-group">
@@ -32,7 +32,12 @@
                 <label>Usuário</label>
 
                 <!-- Input -->
-                <input formControlName="username" type="email" class="form-control" placeholder="seu-email@dominio.com">
+                <input formControlName="username" type="email" class="form-control" [ngClass]="{'is-invalid': userInvalid}" placeholder="seu-email@dominio.com" (focusout)="usernameTouched()">
+                <fc-validation-message 
+                    *ngIf="loginForm.get('username').errors?.required && ( form.submitted || loginForm.get('username').touched )"
+                    class="invalid-feedback"
+                    message="O Usuário é requerido">
+                </fc-validation-message>
 
                 </div>
 
@@ -59,7 +64,12 @@
                     <div class="input-group input-group-merge">
 
                         <!-- Input -->
-                        <input formControlName="password" type="password" class="form-control form-control-appended" placeholder="Digite sua senha">
+                        <input formControlName="password" type="password" class="form-control form-control-appended" [ngClass]="{'is-invalid': userInvalid}" placeholder="Digite sua senha" (focusout)="passwordTouched()">
+                        <fc-validation-message 
+                            *ngIf="loginForm.get('password').errors?.required && ( form.submitted || loginForm.get('password').touched )"
+                            class="invalid-feedback"
+                            message="A senha é requerida">
+                        </fc-validation-message>
 
                         <!-- Icon -->
                         <div class="input-group-append">

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../core/services/auth/auth.service';
 import { Router } from '@angular/router';
@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 export class SignInComponent implements OnInit {
 
   loginForm: FormGroup;
+  userInvalid: boolean = false;
+  passInvalid: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,12 +32,25 @@ export class SignInComponent implements OnInit {
   }
 
   login() {
-    //console.log('loguei!');
-    this.authService
-      .authenticate()
-      .subscribe(
-        () => this.router.navigate(['home'])
-      )
+    if(this.loginForm.valid){
+      this.authService
+        .authenticate()
+        .subscribe(
+          () => this.router.navigate(['home'])
+        )
+    }
+  }
+
+  usernameTouched(){
+    if(this.loginForm.get('username').errors.required){
+      this.userInvalid = true;
+    }
+  }
+
+  passwordTouched(){
+    if(this.loginForm.get('password').errors.required){
+      this.passInvalid = true;
+    }
   }
 
 }
