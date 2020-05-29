@@ -32,7 +32,7 @@ export class SignInComponent implements OnInit {
   }
 
   login() {
-    if(this.loginForm.valid){
+    if(this.loginForm.valid && !this.loginForm.pending){
       this.authService
         .authenticate()
         .subscribe(
