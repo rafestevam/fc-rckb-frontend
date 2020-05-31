@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../core/services/auth/auth.service';
 import { Router } from '@angular/router';
+import { AlertModalService } from '../shared/components/alert-modal/service/alert-modal.service';
 
 @Component({
   selector: 'fc-sign-in',
@@ -17,7 +18,8 @@ export class SignInComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private alertService: AlertModalService
   ) { }
 
   ngOnInit(): void {
@@ -32,11 +34,15 @@ export class SignInComponent implements OnInit {
   }
 
   login() {
+    //this.alertService.danger('Teste Titulo', 'Teste Mensagem');
     if(this.loginForm.valid && !this.loginForm.pending){
       this.authService
         .authenticate()
         .subscribe(
-          () => this.router.navigate(['home'])
+          () => this.router.navigate(['home']),
+          err => {
+            this.alertService.danger('Erro', err.message);
+          }
         )
     } else {
       this.userInvalid = this.loginForm.get('username').errors.required ? true : false;

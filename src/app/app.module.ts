@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { NavbarModule } from './core/components/navbar/navbar.module';
 import { SignInModule } from './sign-in/sign-in.module';
+import { AlertModalModule } from './shared/components/alert-modal/alert-modal.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { SignInModule } from './sign-in/sign-in.module';
     AppRoutingModule,
     CoreModule,
     NavbarModule,
-    SignInModule
+    SignInModule,
+    AlertModalModule
   ],
   providers: [],
   bootstrap: [AppComponent]
