@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { User } from 'src/app/core/services/user/user';
+import { UserService } from 'src/app/core/services/user/user.service';
 
 @Component({
   selector: 'fc-user-list',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserListComponent implements OnInit {
 
-  constructor() { }
+  users: User[] = [];
+
+  constructor(
+    private userService: UserService
+  ) { }
 
   ngOnInit(): void {
+    this.userService
+      .getUsers()
+      .subscribe(
+        users => this.users = this.users.concat(users)
+      );
   }
 
 }

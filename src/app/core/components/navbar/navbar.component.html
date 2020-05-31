@@ -8,16 +8,16 @@
       <img src="assets/img/logo-icon-rckb.svg" class="navbar-brand-img mx-auto" alt="...">
     </a>
 
-    <div class="collapse navbar-collapse" [ngClass]="{'show': isShown}">
+    <div class="navbar-collapse collapse" [ngClass]="{'show': isShown}">
 
       <!-- Divider -->
       <hr class="navbar-divider d-none d-md-block mt-0 mb-3">
 
       <fc-navigation>
-        <fc-nav-item navItem="Usuários" icon="users" (click)="usuarios.toggle()">
+        <fc-nav-item #usuariosItem navItem="Usuários" icon="users" (click)="usuarios.toggle()" (linkClicked)="controlActive('usuarios')">
           <fc-dropdown-menu #usuarios>
             <fc-dropdown-header dropdownHeader="Usuários"></fc-dropdown-header>
-            <fc-dropdown-item dropdownItem="Todos os usuários"></fc-dropdown-item>
+            <fc-dropdown-item dropdownItem="Todos os usuários" target="/users"></fc-dropdown-item>
             <fc-dropdown-item dropdownItem="Criar Usuário" target="/users/new"></fc-dropdown-item>
           </fc-dropdown-menu>
         </fc-nav-item>
@@ -27,7 +27,7 @@
       <hr class="navbar-divider d-none d-md-block mt-0 mb-3">
 
       <fc-navigation>
-        <fc-nav-item navItem="Projetos" icon="pen-tool" (click)="projetos.toggle()">
+        <fc-nav-item #projetosItem navItem="Projetos" icon="pen-tool" (click)="projetos.toggle()" (linkClicked)="controlActive('projetos')">
           <fc-dropdown-menu #projetos>
             <fc-dropdown-header dropdownHeader="Projetos"></fc-dropdown-header>
             <fc-dropdown-item dropdownItem="Todos os projetos" target="/projects"></fc-dropdown-item>

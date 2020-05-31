@@ -32,7 +32,7 @@
                 <label>Usuário</label>
 
                 <!-- Input -->
-                <input formControlName="username" type="email" class="form-control" [ngClass]="{'invalidated': userInvalid}" placeholder="seu-email@dominio.com" (focusout)="usernameTouched()">
+                <input #usernameInput formControlName="username" type="email" class="form-control" [ngClass]="{'invalidated': userInvalid}" placeholder="seu-email@dominio.com" (focusout)="usernameTouched()">
                 <fc-validation-message 
                     *ngIf="loginForm.get('username').errors?.required && ( form.submitted || loginForm.get('username').touched )"
                     message="O Usuário é requerido">

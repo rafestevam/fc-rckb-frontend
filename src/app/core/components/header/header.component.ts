@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+
+import { AuthService } from '../../services/auth/auth.service';
+import { UserService } from '../../services/user/user.service';
+import { User } from '../../services/user/user';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'fc-header',
@@ -9,16 +14,21 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
+  name: string = '';
+  user$: Observable<User>;
+
   constructor(
-    private authService: AuthService,
+    private userService: UserService,
     private router: Router
-  ) { }
+  ) { 
+    this.user$ = userService.getUser();
+  }
 
   ngOnInit(): void {
   }
 
   logout() {
-    this.authService.logOut();
+    this.userService.logOut();
     this.router.navigate(['']);
   }
 

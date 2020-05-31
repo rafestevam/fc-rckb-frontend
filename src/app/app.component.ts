@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { UserService } from './core/services/user/user.service';
 import { Observable } from 'rxjs';
-import { AuthService } from './core/services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,10 +9,10 @@ import { AuthService } from './core/services/auth/auth.service';
 })
 export class AppComponent {
   title = 'fc-rckb-frontend';
-  //loggedIn: boolean = true;
-  auth$: Observable<boolean>;
+  logged$: Observable<boolean>;
 
-  constructor(private authService: AuthService){
-    this.auth$ = authService.getAuth();
+  constructor(private userService: UserService){
+    this.logged$ = userService.getLogged();
   }
+
 }

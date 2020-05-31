@@ -1,26 +1,35 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit, OnChanges } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { AuthService } from '../core/services/auth/auth.service';
 import { Router } from '@angular/router';
 import { AlertModalService } from '../shared/components/alert-modal/service/alert-modal.service';
+import { PlatformDetectService } from '../core/services/platform-detect/platform-detect.service';
 
 @Component({
   selector: 'fc-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss']
 })
-export class SignInComponent implements OnInit {
+export class SignInComponent implements OnInit, AfterViewInit {
 
   loginForm: FormGroup;
   userInvalid: boolean = false;
   passInvalid: boolean = false;
+  @ViewChild('usernameInput') usernameInput: ElementRef<HTMLInputElement>;
+  @ViewChild('form') form: NgForm;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private alertService: AlertModalService
+    private alertService: AlertModalService,
+    private platformDetectService: PlatformDetectService
   ) { }
+
+  ngAfterViewInit(): void {
+    this.platformDetectService.isPlatformBrowser() &&
+      this.usernameInput.nativeElement.focus();
+  }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -34,14 +43,17 @@ export class SignInComponent implements OnInit {
   }
 
   login() {
-    //this.alertService.danger('Teste Titulo', 'Teste Mensagem');
     if(this.loginForm.valid && !this.loginForm.pending){
+      const username = this.loginForm.get('username').value;
+      const password = this.loginForm.get('password').value;
       this.authService
-        .authenticate()
+        .authenticate(username, password)
         .subscribe(
           () => this.router.navigate(['home']),
           err => {
-            this.alertService.danger('Erro', err.message);
+            this.alertService.danger('Erro', err.error.message);
+            this.platformDetectService.isPlatformBrowser() &&
+              this.usernameInput.nativeElement.focus();
           }
         )
     } else {
@@ -56,6 +68,14 @@ export class SignInComponent implements OnInit {
 
   passwordTouched(){
     this.passInvalid = this.loginForm.get('password').errors?.required ? true : false;
+  }
+
+  private resetForm(){
+    this.userInvalid = false;
+    this.passInvalid = false;
+    this.loginForm.reset();
+    this.form.resetForm();
+    this.usernameInput.nativeElement.focus();
   }
 
 }

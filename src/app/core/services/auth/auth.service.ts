@@ -1,33 +1,32 @@
 import { Injectable } from '@angular/core';
-import { TokenService } from '../token/token.service';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { UserService } from '../user/user.service';
+import { Token } from '../token/token';
+
+const API_URL = 'http://localhost:5000/users';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  authSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  constructor(
+    private userService: UserService,
+    private http: HttpClient
+  ) { }
 
-  constructor(private tokenService: TokenService) {
-    this.authSubject.next(this.tokenService.hasToken());
+  authenticate(username: string, password: string) {
+    return this.http
+      .post(API_URL + '/auth', {username, password}, {observe: 'response'})
+      .pipe(tap(
+        res => {
+          const authToken = res.body as Token;
+          this.userService.setToken(authToken.access_token);
+        }
+      ));
+
   }
-
-  authenticate() {
-    this.tokenService.setToken('tokenTeste');
-    this.authSubject.next(this.tokenService.hasToken());
-    return this.authSubject.asObservable();
-  }
-  
-  getAuth(): Observable<boolean> {
-    return this.authSubject.asObservable();
-  }
-
-  logOut() {
-    this.authSubject.next(false);
-    this.tokenService.removeToken();
-  }
-
-
 
 }

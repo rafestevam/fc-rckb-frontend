@@ -1,10 +1,10 @@
 <!-- <fc-menu></fc-menu> -->
 <fc-alert-modal></fc-alert-modal>
-<div *ngIf="(auth$ | async) as true; else login">
+<div *ngIf="(logged$ | async) as true; else login">
     <fc-navbar></fc-navbar>
     <fc-header></fc-header>
     
-    <div class="ml-lg-6">
+    <div class="ml-md-4 ml-lg-4">
         <router-outlet></router-outlet>
     </div>
 </div>

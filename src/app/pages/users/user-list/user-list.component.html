@@ -1,1 +1,55 @@
-<p>user-list works!</p>
+<div class="main-content main-wrapper ml-md-5 ml-lg-5">
+
+    <div class="header">
+
+        <!-- Image -->
+        <img src="assets/img/covers/profile-cover-1.jpg" class="header-img-top" alt="...">
+
+        <div class="container-fluid">
+
+          <!-- Body -->
+          <div class="header-body mt-n5 mt-md-n6">
+            <div class="row align-items-end">
+              <div class="col-auto">
+
+                <!-- Avatar -->
+                <div class="avatar avatar-xxl header-avatar-top ml-md-1 ml-lg-1">
+                  <!-- <img src="assets/img/avatars/teams/team-logo-7.jpg" alt="..." class="avatar-img rounded border border-4 border-body"> -->
+                  <img src="assets/img/logo-icon-rckb.svg" alt="..." class="avatar-img rounded border border-4 border-body avatar-background">
+                </div>
+
+              </div>
+              <div class="col mb-3 ml-n3 ml-md-n2">
+
+                <!-- Pretitle -->
+                <h6 class="header-pretitle">
+                  Usuários
+                </h6>
+
+                <!-- Title -->
+                <h1 class="header-title">
+                  Lista de Usuários
+                </h1>
+
+              </div>
+            
+            </div> <!-- / .row -->
+            
+          </div> <!-- / .header-body -->
+
+        </div>
+
+    </div>
+
+    <!-- Content -->
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10 col-xl-8">
+
+                <fc-user *ngFor="let user of users" [user]="user"></fc-user>
+
+            </div>
+        </div>
+    </div>
+
+</div>

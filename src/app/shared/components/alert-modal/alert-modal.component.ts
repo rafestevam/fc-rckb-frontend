@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { Alert, AlertType } from './alert';
 import { AlertModalService } from './service/alert-modal.service';
 import { $ } from 'protractor';
@@ -10,7 +10,7 @@ import { $ } from 'protractor';
 })
 export class AlertModalComponent implements OnInit {
 
-  //@ViewChild('modalAlert') modalAlert: ElementRef;  
+  //@ViewChild('modalAlert') modalAlert: ElementRef;
   modalMessage: string = '';
   modalTitle: string = '';
   modalClass: string = '';

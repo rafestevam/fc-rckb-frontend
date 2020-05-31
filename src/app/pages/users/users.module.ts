@@ -8,10 +8,11 @@ import { UserFormComponent } from './user-form/user-form.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { PageformHeaderModule } from 'src/app/shared/components/pageform-header/pageform-header.module';
 import { IconsModule } from 'src/app/core/components/navbar/icons/icons.module';
+import { UserComponent } from './user/user.component';
 
 
 @NgModule({
-  declarations: [UserFormComponent, UserListComponent],
+  declarations: [UserFormComponent, UserListComponent, UserComponent],
   imports: [
     CommonModule,
     UsersRoutingModule,

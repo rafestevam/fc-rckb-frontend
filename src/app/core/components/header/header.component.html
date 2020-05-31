@@ -1,4 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-light d-none d-md-flex">
+    <div class="container-fluid ml-md-6 ml-lg-6" *ngIf="(user$ | async) as user">
+        Olá, {{ user.profile.name }}
+    </div>
     <div class="container-fluid justify-content-end">
         <fc-profile-menu>
             <fc-profile-menu-avatar 
