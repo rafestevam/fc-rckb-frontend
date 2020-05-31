@@ -32,10 +32,9 @@
                 <label>Usuário</label>
 
                 <!-- Input -->
-                <input formControlName="username" type="email" class="form-control" [ngClass]="{'is-invalid': userInvalid}" placeholder="seu-email@dominio.com" (focusout)="usernameTouched()">
+                <input formControlName="username" type="email" class="form-control" [ngClass]="{'invalidated': userInvalid}" placeholder="seu-email@dominio.com" (focusout)="usernameTouched()">
                 <fc-validation-message 
                     *ngIf="loginForm.get('username').errors?.required && ( form.submitted || loginForm.get('username').touched )"
-                    class="invalid-feedback"
                     message="O Usuário é requerido">
                 </fc-validation-message>
 
@@ -60,25 +59,12 @@
                         </div>
                     </div> <!-- / .row -->
 
-                    <!-- Input group -->
-                    <div class="input-group input-group-merge">
-
-                        <!-- Input -->
-                        <input formControlName="password" type="password" class="form-control form-control-appended" [ngClass]="{'is-invalid': passInvalid}" placeholder="Digite sua senha" (focusout)="passwordTouched()">
-                        <fc-validation-message 
-                            *ngIf="loginForm.get('password').errors?.required && ( form.submitted || loginForm.get('password').touched )"
-                            class="invalid-feedback"
-                            message="A senha é requerida">
-                        </fc-validation-message>
-
-                        <!-- Icon -->
-                        <div class="input-group-append">
-                        <span class="input-group-text">
-                            <i class="fe fe-eye"></i>
-                        </span>
-                        </div>
-
-                    </div>
+                    <!-- Input -->
+                    <input formControlName="password" type="password" class="form-control form-control-appended" [ngClass]="{'invalidated': passInvalid}" placeholder="Digite sua senha" (focusout)="passwordTouched()">
+                    <fc-validation-message 
+                        *ngIf="loginForm.get('password').errors?.required && ( form.submitted || loginForm.get('password').touched )"
+                        message="A senha é requerida">
+                    </fc-validation-message>
                 </div>
 
                 <!-- Submit -->

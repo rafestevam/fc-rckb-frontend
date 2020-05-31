@@ -38,19 +38,18 @@ export class SignInComponent implements OnInit {
         .subscribe(
           () => this.router.navigate(['home'])
         )
+    } else {
+      this.userInvalid = this.loginForm.get('username').errors.required ? true : false;
+      this.passInvalid = this.loginForm.get('password').errors.required ? true : false;
     }
   }
 
   usernameTouched(){
-    if(this.loginForm.get('username').errors.required){
-      this.userInvalid = true;
-    }
+    this.userInvalid = this.loginForm.get('username').errors?.required ? true : false;
   }
 
   passwordTouched(){
-    if(this.loginForm.get('password').errors.required){
-      this.passInvalid = true;
-    }
+    this.passInvalid = this.loginForm.get('password').errors?.required ? true : false;
   }
 
 }
