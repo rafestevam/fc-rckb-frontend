@@ -7,7 +7,7 @@ import { UsersRoutingModule } from './users-routing.module';
 import { UserFormComponent } from './user-form/user-form.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { PageformHeaderModule } from 'src/app/shared/components/pageform-header/pageform-header.module';
-import { IconsModule } from 'src/app/core/components/navbar/icons/icons.module';
+import { IconsModule } from 'src/app/shared/components/icons/icons.module';
 import { UserComponent } from './user/user.component';
 
 

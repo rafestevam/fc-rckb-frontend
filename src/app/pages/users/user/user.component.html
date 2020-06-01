@@ -39,9 +39,27 @@
         <div class="col-auto">
   
           <!-- Button -->
-          <a [routerLink]="['']" class="btn btn-sm btn-primary d-none d-md-inline-block">
+          <!-- <a [routerLink]="['']" class="btn btn-sm btn-primary d-none d-md-inline-block">
             Ativar
-          </a>
+          </a> -->
+
+          <div class="row content-justify-end">
+            <div class="col-auto">
+
+              <!-- SWitch -->
+              <div class="custom-control custom-switch" (click)="activateUser(user.guid)">
+                <input type="checkbox" class="custom-control-input" id="{{ user.guid }}" #userActive>
+                <label class="custom-control-label" for="{{ user.guid }}"></label>
+              </div>
+              
+            </div>
+            <div class="col-auto">
+              <span class="fake-link link-primary">
+                <i-feather name="trash"></i-feather>
+              </span>
+            </div>
+          </div>
+
   
         </div>
         <div class="col-auto">

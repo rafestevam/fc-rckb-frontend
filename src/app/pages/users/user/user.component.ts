@@ -1,20 +1,34 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { User } from 'src/app/core/services/user/user';
-import { concat } from 'rxjs';
+import { UserService } from 'src/app/core/services/user/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'fc-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() user: User;
+  @ViewChild('userActive') userActive: ElementRef<HTMLInputElement>;
+  activateUserSubscription: Subscription;
 
-  constructor() { }
+  constructor(
+    private userService: UserService
+  ) { }
 
-  ngOnInit(): void {
   
+  ngOnInit(): void {
+    
+  }
+  
+  ngAfterViewInit(): void {
+    this.userActive.nativeElement.checked = this.user.active;
+  }
+  
+  ngOnDestroy(): void {
+    this.activateUserSubscription.unsubscribe();
   }
 
   getInitialsFromName(name: string){
@@ -31,6 +45,18 @@ export class UserComponent implements OnInit {
       return str1 + str2;
     }
 
+  }
+
+  activateUser(guid: string) {
+    this.activateUserSubscription = this.userService
+      .activateUser(guid, this.userActive.nativeElement.checked)
+      .subscribe(
+        () => {
+          console.log('ativado');
+          this.user.active = true;
+        },
+        err => console.log(err)
+      );
   }
 
 }

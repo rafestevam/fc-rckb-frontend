@@ -10,7 +10,7 @@ import { NavItemComponent } from './navigation/nav-item/nav-item.component';
 import { DropdownMenuComponent } from './navigation/nav-item/dropdown-menu/dropdown-menu.component';
 import { DropdownItemComponent } from './navigation/nav-item/dropdown-menu/dropdown-item/dropdown-item.component';
 import { DropdownHeaderComponent } from './navigation/nav-item/dropdown-menu/dropdown-header/dropdown-header.component';
-import { IconsModule } from './icons/icons.module';
+import { IconsModule } from '../../../shared/components/icons/icons.module';
 
 
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import * as jwt_decode from 'jwt-decode';
 
 import { User } from './user';
@@ -42,14 +43,17 @@ export class UserService {
       .subscribe(
         data => {
           const user = data as User;
-          console.log(user);
           this.userSubject.next(user);
         }
       );
   }
 
-  getUser() {
+  getUserLogged() {
     return this.userSubject.asObservable();
+  }
+
+  getUser(guid: string) {
+    return this.http.get<User>(API_URL + `/${guid}/`);
   }
 
   getUsers() {
@@ -65,6 +69,19 @@ export class UserService {
     this.tokenService.setToken(token);
     this.loggedSubject.next(this.tokenService.hasToken());
     this.decodeAndNotify();
+  }
+
+  activateUser(guid: string, active: boolean) {
+    return this.http
+      .put(
+        API_URL + `/${guid}/active`, 
+        {active},
+        {observe: 'response'}
+      );
+  }
+
+  deleteUser(guid: string){
+    return this.http.delete(API_URL + `${guid}`);
   }
 
 }
