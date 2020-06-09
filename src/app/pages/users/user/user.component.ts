@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit, OnDestr
 import { User } from 'src/app/core/services/user/user';
 import { UserService } from 'src/app/core/services/user/user.service';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'fc-user',
@@ -15,7 +16,8 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
   activateUserSubscription: Subscription;
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) { }
 
   
@@ -28,7 +30,8 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   
   ngOnDestroy(): void {
-    this.activateUserSubscription.unsubscribe();
+    if(this.activateUserSubscription)
+      this.activateUserSubscription.unsubscribe();
   }
 
   getInitialsFromName(name: string){
@@ -57,6 +60,11 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
         },
         err => console.log(err)
       );
+  }
+
+  goTo(guid: string) {
+    // this.router.navigate(['users', guid]);
+    this.router.navigateByUrl(`/users/${guid}`);
   }
 
 }

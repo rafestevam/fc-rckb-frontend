@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { User } from 'src/app/core/services/user/user';
+import { UserService } from 'src/app/core/services/user/user.service';
+import { tap, map } from 'rxjs/operators';
+import { EventEmitter } from 'protractor';
 
 @Component({
   selector: 'fc-user-form',
@@ -10,23 +16,64 @@ export class UserFormComponent implements OnInit {
 
   usersForm: FormGroup;
   files: File[] = [];
+  userId: string;
+  user: User;
+  userSubscription: Subscription;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private userService: UserService
+  ) { }
 
   ngOnInit(): void {
     this.usersForm = this.formBuilder.group({
-      username: ['',
+      username: [
+        '',
         Validators.required
       ],
-      name: ['',
+      name: [
+        '',
         Validators.required
       ],
       cellPhone: [''],
-      profile: ['',
+      role: ['',
         Validators.required
       ],
       userActive: [false]
-    })
+    });
+
+    this.userId = this.route.snapshot.params.id ? this.route.snapshot.params.id : '';
+    if(this.userId) {
+      this.userSubscription = this.userService
+        .getUser(this.userId)
+        //.pipe(tap(user => console.log(user?.role)))
+        .subscribe(user => {
+          let userRole = 0;
+          // switch(user.role) {
+          //   case 'administrator':
+          //     userRole = 0;
+          //   case 'superuser':
+          //     userRole = 1;
+          //   case 'collaborator':
+          //     userRole = 2;
+          //   default:
+          //     userRole = -1; 
+          // }
+          //console.log(user);
+          this.usersForm.controls['username'].setValue(user.username);
+          this.usersForm.controls['name'].setValue(user.profile.name);
+          this.usersForm.controls['cellPhone'].setValue(user.profile.cellPhone);
+          this.usersForm.controls['userActive'].setValue(user.active);
+          this.usersForm.controls['role'].setValue(user.role);
+        })
+        // .subscribe(user => {
+        //   this.user = user
+        // },
+        // err => {
+        //   console.log(err);
+        // })
+    }
   }
 
   onSelect(event) {
@@ -41,6 +88,10 @@ export class UserFormComponent implements OnInit {
 
   createOrUpdate(){
 
+  }
+
+  changeValue(event: EventEmitter) {
+    console.log(event);
   }
 
 }

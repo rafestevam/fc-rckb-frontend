@@ -22,7 +22,7 @@
   
           <!-- Title -->
           <h4 class="mb-1">
-            <span>{{ user.profile.name }}</span>
+            <span class="fake-link" (click)="goTo(user.guid)">{{ user.profile.name }}</span>
           </h4>
   
           <!-- Text -->

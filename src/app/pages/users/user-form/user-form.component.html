@@ -28,10 +28,10 @@
                 <!-- Role -->
                 <div class="form-group">
                     <label>Selecione um perfil</label>
-                    <select class="form-control" data-toggle="select" formControlName="profile">
-                        <option>Administrador</option>
-                        <option>Superusuário</option>
-                        <option>Colaborador</option>
+                    <select class="form-control" data-toggle="select" formControlName="role" (change)="changeValue($event)" [value]="">
+                        <option value="administrator">Administrador</option>
+                        <option value="superuser">Superusuário</option>
+                        <option value="collaborator">Colaborador</option>
                     </select>
                 </div>
 

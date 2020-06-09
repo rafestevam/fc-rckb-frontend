@@ -53,7 +53,7 @@ export class UserService {
   }
 
   getUser(guid: string) {
-    return this.http.get<User>(API_URL + `/${guid}/`);
+    return this.http.get<User>(API_URL + `/${guid}`);
   }
 
   getUsers() {
