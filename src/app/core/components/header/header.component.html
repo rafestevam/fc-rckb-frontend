@@ -4,8 +4,9 @@
     </div>
     <div class="container-fluid justify-content-end">
         <fc-profile-menu>
-            <fc-profile-menu-avatar 
-                avatarSrc="assets/img/avatars/profiles/avatar-1.jpg" 
+            <fc-profile-menu-avatar *ngIf="(user$ | async) as user"
+                [avatarImg]="user.profile.avatar"
+                [name]="user.profile.name"
                 (mouseover)="menuItems.toggle()">
             </fc-profile-menu-avatar>
             <fc-profile-menu-items #menuItems>

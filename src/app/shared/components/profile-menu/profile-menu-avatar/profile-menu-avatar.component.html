@@ -1,5 +1,14 @@
 <!-- Toggle -->
 <!-- <a href="#" class="avatar avatar-sm avatar-online dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
-<a href="#" class="avatar avatar-sm avatar-online dropdown-toggle">
-    <img [src]="avatarSrc" alt="..." class="avatar-img rounded-circle">
-</a>
+<div *ngIf="avatarImg; else avatarInitials">
+    <a href="#" class="avatar avatar-sm avatar-online dropdown-toggle">
+        <img [src]="getProfileAvatar(avatarImg)" alt="..." class="avatar-img rounded-circle">
+    </a>
+</div>
+<ng-template #avatarInitials>
+    <div class="avatar avatar-sm">
+        <span class="avatar-title rounded-circle fake-link">
+          {{ getInitialsFromName(name) }}
+        </span>
+    </div>
+</ng-template>

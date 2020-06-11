@@ -6,7 +6,8 @@
           <!-- Avatar -->
           <div *ngIf="user.profile.avatar; else avatarInitials">
               <div class="avatar avatar-lg">
-                <img src="assets/img/avatars/profiles/avatar-1.jpg" alt="..." class="avatar-img rounded-circle">
+                <!-- <img src="assets/img/avatars/profiles/avatar-1.jpg" alt="..." class="avatar-img rounded-circle"> -->
+                <img [src]="imagePath" alt="..." class="avatar-img rounded-circle">
               </div>
           </div>
           <ng-template #avatarInitials>
@@ -54,7 +55,7 @@
               
             </div>
             <div class="col-auto">
-              <span class="fake-link link-primary">
+              <span class="fake-link link-primary" (click)="deleteUser(user.guid)">
                 <i-feather name="trash"></i-feather>
               </span>
             </div>

@@ -6,6 +6,7 @@ import { User } from 'src/app/core/services/user/user';
 import { UserService } from 'src/app/core/services/user/user.service';
 import { tap, map } from 'rxjs/operators';
 import { EventEmitter } from 'protractor';
+import { HttpEvent, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'fc-user-form',
@@ -27,9 +28,12 @@ export class UserFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.userId = this.route.snapshot.params.id ? this.route.snapshot.params.id : '';
+    let disabled = false;
+    disabled = this.userId ? true : false;
     this.usersForm = this.formBuilder.group({
       username: [
-        '',
+        {value:'', disabled},
         Validators.required
       ],
       name: [
@@ -43,7 +47,7 @@ export class UserFormComponent implements OnInit {
       userActive: [false]
     });
 
-    this.userId = this.route.snapshot.params.id ? this.route.snapshot.params.id : '';
+    
     if(this.userId) {
       this.userSubscription = this.userService
         .getUser(this.userId)
@@ -77,21 +81,39 @@ export class UserFormComponent implements OnInit {
   }
 
   onSelect(event) {
-		console.log(event);
+		// console.log(event);
 		this.files.push(...event.addedFiles);
 	}
 
 	onRemove(event) {
-		console.log(event);
+		// console.log(event);
 		this.files.splice(this.files.indexOf(event), 1);
   }
 
   createOrUpdate(){
+    const user = this.usersForm.getRawValue();
+    if(this.userId){
+      this.userService
+        .updateUser(user, this.userId, this.files[0])
+        .subscribe((event: HttpEvent<any>) => {
+          if (event instanceof HttpResponse){
+            console.log('foto carregada...')
+          }
+        })
+    } else {
+      this.userService
+        .createUser(user, this.files[0])
+        .subscribe((event: HttpEvent<any>) => {
+          if (event instanceof HttpResponse){
+            console.log('usuario criado...')
+          }
+        })
+    }
 
   }
 
   changeValue(event: EventEmitter) {
-    console.log(event);
+    // console.log(event);
   }
 
 }

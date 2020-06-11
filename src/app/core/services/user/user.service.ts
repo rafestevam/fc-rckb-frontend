@@ -6,8 +6,11 @@ import * as jwt_decode from 'jwt-decode';
 
 import { User } from './user';
 import { TokenService } from '../token/token.service';
+import { UserForm } from 'src/app/pages/users/user-form/UserForm';
+import { ProfileImage } from './profile-image';
 
 const API_URL = 'http://localhost:5000/users';
+const API_STATIC = 'http://localhost:5000/static/profile/';
 @Injectable({
   providedIn: 'root'
 })
@@ -46,6 +49,7 @@ export class UserService {
           this.userSubject.next(user);
         }
       );
+
   }
 
   getUserLogged() {
@@ -54,6 +58,10 @@ export class UserService {
 
   getUser(guid: string) {
     return this.http.get<User>(API_URL + `/${guid}`);
+  }
+
+  getUserImage(avatarImg: string) {
+      return `${API_STATIC}/${avatarImg}`;
   }
 
   getUsers() {
@@ -65,10 +73,45 @@ export class UserService {
     return this.loggedSubject.asObservable();
   }
 
+  getUserInitials(name: string) {
+    const splittedName = name.split(' ');
+    if(splittedName.length == 1){
+      let str1 = splittedName[0].charAt(0).toUpperCase();
+      let str2 = splittedName[0].charAt(1).toUpperCase();
+      return str1 + str2;
+    }
+    
+    if(splittedName.length > 1){
+      let str1 = splittedName[0].charAt(0).toUpperCase();
+      let str2 = splittedName[1].charAt(0).toUpperCase();
+      return str1 + str2;
+    }
+  }
+
   setToken(token: string){
     this.tokenService.setToken(token);
     this.loggedSubject.next(this.tokenService.hasToken());
     this.decodeAndNotify();
+  }
+
+  createUser(user: UserForm, file: File){
+    const formData = new FormData();
+    let userActive = user.userActive ? 'true' : 'false';
+    formData.append('username', user.username);
+    formData.append('active', userActive);
+    formData.append('profile.name', user.name);
+    formData.append('profile.cellPhone', user.cellPhone);
+    formData.append('role', user.role);
+    formData.append('imageFile', file);
+
+    return this.http
+      .post(API_URL + '/new',
+            formData,
+            {
+              observe: 'events',
+              reportProgress: true
+            }
+      );
   }
 
   activateUser(guid: string, active: boolean) {
@@ -80,8 +123,30 @@ export class UserService {
       );
   }
 
-  deleteUser(guid: string){
-    return this.http.delete(API_URL + `${guid}`);
+  deleteUser(guid: string) {
+    return this.http
+      .delete(
+        API_URL + `/${guid}`,
+        {observe: 'response'}
+      );
+  }
+
+  updateUser(user: UserForm, guid: string, file: File) {
+    const formData = new FormData();
+    formData.append('profile.name', user.name);
+    formData.append('profile.cellPhone', user.cellPhone);
+    formData.append('role', user.role);
+    formData.append('imageFile', file);
+
+    return this.http
+      .put(API_URL + `/${guid}`,
+              formData,
+              {
+                observe: 'events',
+                reportProgress: true
+              }
+      );
+
   }
 
 }

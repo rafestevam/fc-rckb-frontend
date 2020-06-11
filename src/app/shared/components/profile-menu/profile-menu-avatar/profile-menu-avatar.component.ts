@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { UserService } from 'src/app/core/services/user/user.service';
 
 @Component({
   selector: 'fc-profile-menu-avatar',
@@ -7,11 +8,21 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ProfileMenuAvatarComponent implements OnInit {
 
-  @Input() avatarSrc = '';
+  @Input() avatarImg = '';
+  @Input() name = '';
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+  }
+
+  getInitialsFromName(name: string){
+    console.log(name);
+    return this.userService.getUserInitials(name);
+  }
+
+  getProfileAvatar(avatarImg: string) {
+    return this.userService.getUserImage(avatarImg);
   }
 
 }

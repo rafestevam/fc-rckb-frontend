@@ -14,6 +14,7 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() user: User;
   @ViewChild('userActive') userActive: ElementRef<HTMLInputElement>;
   activateUserSubscription: Subscription;
+  imagePath: string;
 
   constructor(
     private userService: UserService,
@@ -22,7 +23,8 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
 
   
   ngOnInit(): void {
-    
+    this.getProfileImage(this.user.profile.avatar);
+    console.log(this.imagePath);
   }
   
   ngAfterViewInit(): void {
@@ -35,19 +37,7 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getInitialsFromName(name: string){
-    const splittedName = name.split(' ');
-    if(splittedName.length == 1){
-      let str1 = splittedName[0].charAt(0).toUpperCase();
-      let str2 = splittedName[0].charAt(1).toUpperCase();
-      return str1 + str2;
-    }
-    
-    if(splittedName.length > 1){
-      let str1 = splittedName[0].charAt(0).toUpperCase();
-      let str2 = splittedName[1].charAt(0).toUpperCase();
-      return str1 + str2;
-    }
-
+    return this.userService.getUserInitials(name);
   }
 
   activateUser(guid: string) {
@@ -55,16 +45,28 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
       .activateUser(guid, this.userActive.nativeElement.checked)
       .subscribe(
         () => {
-          console.log('ativado');
           this.user.active = true;
         },
         err => console.log(err)
       );
   }
 
+  getProfileImage(avatar: string) {
+    this.imagePath = this.userService.getUserImage(avatar);
+  }
+
   goTo(guid: string) {
     // this.router.navigate(['users', guid]);
     this.router.navigateByUrl(`/users/${guid}`);
+  }
+
+  deleteUser(guid: string) {
+    this.userService
+      .deleteUser(guid)
+      .subscribe(() => {
+        console.log('Usuario deletado');
+        this.router.navigate(['users']);
+      })
   }
 
 }
