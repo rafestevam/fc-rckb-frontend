@@ -18,6 +18,7 @@ export class UserService {
 
   userSubject: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   loggedSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  loggedUser: string;
 
   constructor(
     private tokenService: TokenService,
@@ -46,6 +47,7 @@ export class UserService {
       .subscribe(
         data => {
           const user = data as User;
+          this.loggedUser = user.guid;
           this.userSubject.next(user);
         }
       );
@@ -54,6 +56,10 @@ export class UserService {
 
   getUserLogged() {
     return this.userSubject.asObservable();
+  }
+
+  getCurrentUser() {
+    return this.loggedUser;
   }
 
   getUser(guid: string) {
@@ -88,8 +94,8 @@ export class UserService {
     }
   }
 
-  setToken(token: string){
-    this.tokenService.setToken(token);
+  setToken(token: string, refreshToken: string){
+    this.tokenService.setToken(token, refreshToken);
     this.loggedSubject.next(this.tokenService.hasToken());
     this.decodeAndNotify();
   }

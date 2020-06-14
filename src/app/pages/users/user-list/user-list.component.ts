@@ -23,4 +23,9 @@ export class UserListComponent implements OnInit {
       );
   }
 
+  removeUserFromList(guid: string) {
+    let index = this.users.findIndex(user => user.guid == guid);
+    this.users.splice(index, 1);
+  }
+
 }

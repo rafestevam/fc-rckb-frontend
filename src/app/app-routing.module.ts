@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { ForgotPassComponent } from './sign-in/forgot-pass/forgot-pass.component';
 import { AuthGuard } from './core/guards/auth.guard';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { RequestInterceptor } from './core/services/auth/request.interceptor';
 
 
 const routes: Routes = [
@@ -31,6 +33,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: []
 })
 export class AppRoutingModule { }

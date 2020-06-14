@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { UserService } from '../user/user.service';
 import { Token } from '../token/token';
+import { TokenService } from '../token/token.service';
 
 const API_URL = 'http://localhost:5000/users';
 
@@ -14,6 +15,7 @@ export class AuthService {
 
   constructor(
     private userService: UserService,
+    private tokenService: TokenService,
     private http: HttpClient
   ) { }
 
@@ -23,10 +25,9 @@ export class AuthService {
       .pipe(tap(
         res => {
           const authToken = res.body as Token;
-          this.userService.setToken(authToken.access_token);
+          this.userService.setToken(authToken.access_token, authToken.refresh_token);
         }
       ));
-
   }
 
 }

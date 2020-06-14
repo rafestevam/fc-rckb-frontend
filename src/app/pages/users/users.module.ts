@@ -9,6 +9,7 @@ import { UserListComponent } from './user-list/user-list.component';
 import { PageformHeaderModule } from 'src/app/shared/components/pageform-header/pageform-header.module';
 import { IconsModule } from 'src/app/shared/components/icons/icons.module';
 import { UserComponent } from './user/user.component';
+import { ValidationMessageModule } from 'src/app/shared/components/validation-message/validation-message.module';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { UserComponent } from './user/user.component';
     ReactiveFormsModule,
     NgxDropzoneModule,
     PageformHeaderModule,
-    IconsModule
+    IconsModule,
+    ValidationMessageModule
   ],
   exports: [
     UserFormComponent,

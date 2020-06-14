@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { User } from 'src/app/core/services/user/user';
 import { UserService } from 'src/app/core/services/user/user.service';
-import { tap, map } from 'rxjs/operators';
 import { EventEmitter } from 'protractor';
 import { HttpEvent, HttpResponse } from '@angular/common/http';
+import { AlertModalService } from 'src/app/shared/components/alert-modal/service/alert-modal.service';
+import { phoneNumberValidator } from './validators/phone-number.validator';
 
 @Component({
   selector: 'fc-user-form',
@@ -20,11 +21,18 @@ export class UserFormComponent implements OnInit {
   userId: string;
   user: User;
   userSubscription: Subscription;
+  imagePath: string;
+  usernameInvalid: boolean;
+  nameInvalid: boolean;
+  cellphoneInvalid: boolean;
+  roleInvalid: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router,
+    private alertService: AlertModalService
   ) { }
 
   ngOnInit(): void {
@@ -40,7 +48,9 @@ export class UserFormComponent implements OnInit {
         '',
         Validators.required
       ],
-      cellPhone: [''],
+      cellPhone: ['',
+        phoneNumberValidator
+      ],
       role: ['',
         Validators.required
       ],
@@ -51,32 +61,14 @@ export class UserFormComponent implements OnInit {
     if(this.userId) {
       this.userSubscription = this.userService
         .getUser(this.userId)
-        //.pipe(tap(user => console.log(user?.role)))
         .subscribe(user => {
-          let userRole = 0;
-          // switch(user.role) {
-          //   case 'administrator':
-          //     userRole = 0;
-          //   case 'superuser':
-          //     userRole = 1;
-          //   case 'collaborator':
-          //     userRole = 2;
-          //   default:
-          //     userRole = -1; 
-          // }
-          //console.log(user);
           this.usersForm.controls['username'].setValue(user.username);
           this.usersForm.controls['name'].setValue(user.profile.name);
           this.usersForm.controls['cellPhone'].setValue(user.profile.cellPhone);
           this.usersForm.controls['userActive'].setValue(user.active);
           this.usersForm.controls['role'].setValue(user.role);
+          this.imagePath = this.getProfileImage(user.profile.avatar);
         })
-        // .subscribe(user => {
-        //   this.user = user
-        // },
-        // err => {
-        //   console.log(err);
-        // })
     }
   }
 
@@ -91,29 +83,59 @@ export class UserFormComponent implements OnInit {
   }
 
   createOrUpdate(){
-    const user = this.usersForm.getRawValue();
-    if(this.userId){
-      this.userService
-        .updateUser(user, this.userId, this.files[0])
-        .subscribe((event: HttpEvent<any>) => {
-          if (event instanceof HttpResponse){
-            console.log('foto carregada...')
-          }
-        })
+    if(this.usersForm.valid && !this.usersForm.pending){
+      const user = this.usersForm.getRawValue();
+      if(this.userId){
+        this.userService
+          .updateUser(user, this.userId, this.files[0])
+          .subscribe((event: HttpEvent<any>) => {
+            if (event instanceof HttpResponse){
+              //console.log('foto carregada...')
+              this.alertService.success('Usuário Modificado', 'Usuário modificado com sucesso!');
+            }
+          })
+      } else {
+        this.userService
+          .createUser(user, this.files[0])
+          .subscribe((event: HttpEvent<any>) => {
+            if (event instanceof HttpResponse){
+              //console.log('usuario criado...')
+              this.alertService.success('Usuário Criado', 'Usuário criado com sucesso!');
+              this.router.navigate(['/users']);
+            }
+          })
+      }
     } else {
-      this.userService
-        .createUser(user, this.files[0])
-        .subscribe((event: HttpEvent<any>) => {
-          if (event instanceof HttpResponse){
-            console.log('usuario criado...')
-          }
-        })
+      this.usernameInvalid = this.usersForm.get('username').errors.required ? true : false;
+      this.nameInvalid = this.usersForm.get('name').errors.required ? true : false;
+      this.cellphoneInvalid = this.usersForm.get('cellPhone').errors?.phoneNumber ? true : false;
+      this.roleInvalid = this.usersForm.get('role').errors.required ? true : false;
     }
 
   }
 
   changeValue(event: EventEmitter) {
     // console.log(event);
+  }
+
+  getProfileImage(avatar: string) {
+    return this.imagePath = this.userService.getUserImage(avatar);
+  }
+
+  usernameTouched() {
+    this.usernameInvalid = this.usersForm.get('username').errors?.required ? true : false;
+  }
+
+  nameTouched() {
+    this.nameInvalid = this.usersForm.get('name').errors?.required ? true : false;
+  }
+
+  cellphoneTouched() {
+    this.cellphoneInvalid = this.usersForm.get('cellPhone').errors?.phoneNumber ? true : false;
+  }
+
+  roleTouched() {
+    this.roleInvalid = this.usersForm.get('role').errors?.required ? true : false;
   }
 
 }

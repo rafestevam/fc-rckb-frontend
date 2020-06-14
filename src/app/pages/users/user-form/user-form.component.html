@@ -5,34 +5,50 @@
             
             <fc-pageform-header headerPreTitle="Novo Usuário" headerTitle="Crie um novo usuário"></fc-pageform-header>    
 
-            <form class="mb-4" [formGroup]="usersForm" (submit)="createOrUpdate()">
+            <form class="mb-4" #form="ngForm" [formGroup]="usersForm" (submit)="createOrUpdate()">
 
                 <!-- Nome de Usuario -->
                 <div class="form-group">
                     <label>Nome de usuário</label>
-                    <input formControlName="username" class="form-control" type="email" placeholder="email@dominio.com"> 
+                    <input formControlName="username" class="form-control" type="email" [ngClass]="{'invalidated': usernameInvalid}" placeholder="email@dominio.com" (focusout)="usernameTouched()">
+                    <fc-validation-message 
+                        *ngIf="usersForm.get('username').errors?.required && ( form.submitted || usersForm.get('username').touched )"
+                        message="O Nome de Usuário é requerido">
+                    </fc-validation-message> 
                 </div>
 
                 <!-- Nome -->
                 <div class="form-group">
                     <label>Nome</label>
-                    <input formControlName="name" class="form-control" type="text" placeholder="Nome Completo">
+                    <input formControlName="name" class="form-control" type="text" [ngClass]="{'invalidated': nameInvalid}" placeholder="Nome Completo" (focusout)="nameTouched()">
+                    <fc-validation-message 
+                        *ngIf="usersForm.get('name').errors?.required && ( form.submitted || usersForm.get('name').touched )"
+                        message="O Nome é requerido">
+                    </fc-validation-message>
                 </div>
 
                 <!-- Telefone Celular -->
                 <div class="form-group">
                     <label>Tel. Celular</label>
-                    <input formControlName="cellPhone" class="form-control" type="text" placeholder="(99) 99999-9999" data-mask="(000) 000-0000">
+                    <input formControlName="cellPhone" class="form-control" type="text" [ngClass]="{'invalidated': cellphoneInvalid}" placeholder="(99) 99999-9999" data-mask="(000) 000-0000" (focusout)="cellphoneTouched()">
+                    <fc-validation-message 
+                        *ngIf="usersForm.get('cellPhone').errors?.phoneNumber && ( form.submitted || usersForm.get('cellPhone').touched )"
+                        message="O Número de Telefone deve ser informado no formato (99)99999-9999">
+                    </fc-validation-message>
                 </div>
 
                 <!-- Role -->
                 <div class="form-group">
                     <label>Selecione um perfil</label>
-                    <select class="form-control" data-toggle="select" formControlName="role" (change)="changeValue($event)" [value]="">
+                    <select class="form-control" data-toggle="select" formControlName="role" [ngClass]="{'invalidated': roleInvalid}" (change)="changeValue($event)" [value]="" (focusout)="roleTouched()">
                         <option value="administrator">Administrador</option>
                         <option value="superuser">Superusuário</option>
                         <option value="collaborator">Colaborador</option>
                     </select>
+                    <fc-validation-message 
+                        *ngIf="usersForm.get('role').errors?.required && ( form.submitted || usersForm.get('role').touched )"
+                        message="O Perfil do Usuário é requerido">
+                    </fc-validation-message>
                 </div>
 
                 <div class="row">
@@ -52,13 +68,20 @@
                                 Favor utilizar uma imagem de até 256px x 256px
                             </small>
 
-                            <!-- Dropzone -->
-                            <div class="dropzone dropzone-single justify-content-center" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
-                                <ngx-dropzone-label>Clique ou arraste uma imagem</ngx-dropzone-label>
-                                <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
-                                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
-                                </ngx-dropzone-image-preview>
+                            <div class="justify-content-center" *ngIf="userId; else newImage">
+                                <div class="avatar-super-sized">
+                                    <img [src]="imagePath" alt="..." class="avatar-img rounded-circle mt-2">
+                                </div>
                             </div>
+                            <ng-template #newImage>
+                                <!-- Dropzone -->
+                                <div class="dropzone dropzone-single justify-content-center" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
+                                    <ngx-dropzone-label>Clique ou arraste uma imagem</ngx-dropzone-label>
+                                    <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+                                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                    </ngx-dropzone-image-preview>
+                                </div>
+                            </ng-template>
 
                         </div>
                     </div>
